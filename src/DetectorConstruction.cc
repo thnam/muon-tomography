@@ -29,7 +29,8 @@ DetectorConstruction::~DetectorConstruction() {}
 G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4NistManager *nist = G4NistManager::Instance();
   G4Material *default_mat = nist->FindOrBuildMaterial("G4_AIR");
-  // G4Material *target_mat = nist->FindOrBuildMaterial("G4_Cu");
+  G4Material *targetMaterial = nist->FindOrBuildMaterial("G4_Pb");
+  G4Material *concreteMaterial = nist->FindOrBuildMaterial("G4_CONCRETE");
   G4Material *scMaterial =
       nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
 
@@ -50,6 +51,13 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4double layerSizeY = nScBar * scSizeX + nScBar * scGapX;
   G4double layerSizeZ = scSizeZ + scGapZ;
 
+  G4double concreteX = 20 * cm;
+  G4double concreteY = 20 * cm;
+  G4double concreteZ = 20 * cm;
+  G4double targetX = 5 * cm;
+  G4double targetY = 5 * cm;
+  G4double targetZ = 2 * cm;
+
   G4double worldSizeX = 1.2 * layerSizeX;
   G4double worldSizeY = 1.2 * layerSizeY;
   G4double worldSizeZ =
@@ -69,6 +77,21 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
                         false,            // no boolean operation
                         0,                // copy number
                         fCheckOverlaps);  // overlaps checking
+
+  // concrete box and target
+  G4Box *solidConcrete =
+      new G4Box("concrete", concreteX / 2, concreteY / 2, concreteZ / 2);
+  G4LogicalVolume *logConcrete =
+      new G4LogicalVolume(solidConcrete, concreteMaterial, "concrete");
+  new G4PVPlacement(0, G4ThreeVector(), logConcrete, "concrete", logicWorld,
+                    false, 0, fCheckOverlaps);
+
+  G4Box *solidTarget =
+      new G4Box("target", targetX / 2, targetY / 2, targetZ / 2);
+  G4LogicalVolume *logTarget =
+      new G4LogicalVolume(solidTarget, targetMaterial, "target");
+  new G4PVPlacement(0, G4ThreeVector(), logTarget, "target", logConcrete, false,
+                    0, fCheckOverlaps);
 
   // scintillators
   G4Box *solidScX =
@@ -129,11 +152,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   //------------------------------------------------
 
   logicWorld->SetVisAttributes(G4VisAttributes::Invisible);
-
-  G4VisAttributes *visAttScX = new G4VisAttributes(G4Colour(.0, 1.0, 1., 1.0));
-  logicScX->SetVisAttributes(visAttScX);
-  G4VisAttributes *visAttScY = new G4VisAttributes(G4Colour(0.0, 0.0, 1., 0.4));
-  logicScY->SetVisAttributes(visAttScY);
+  logicScX->SetVisAttributes(new G4VisAttributes(G4Colour(.0, 1.0, 1., 1.0)));
+  logicScY->SetVisAttributes(new G4VisAttributes(G4Colour(0.0, 0.0, 1., 0.4)));
+  logConcrete->SetVisAttributes(new G4VisAttributes(G4Colour(.8, .3, .3, 0.3)));
+  logTarget->SetVisAttributes(new G4VisAttributes(G4Colour(1., .3, .3, 1.0)));
 
   // always return the physical World
   //
