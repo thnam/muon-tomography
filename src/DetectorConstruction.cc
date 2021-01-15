@@ -51,12 +51,12 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4double layerSizeY = nScBar * scSizeX + nScBar * scGapX;
   G4double layerSizeZ = scSizeZ + scGapZ;
 
-  G4double concreteX = 20 * cm;
-  G4double concreteY = 20 * cm;
-  G4double concreteZ = 20 * cm;
-  G4double targetX = 5 * cm;
-  G4double targetY = 5 * cm;
-  G4double targetZ = 2 * cm;
+  G4double concreteX = 30 * cm;
+  G4double concreteY = 30 * cm;
+  G4double concreteZ = 30 * cm;
+  G4double targetX = 10 * cm;
+  G4double targetY = 10 * cm;
+  G4double targetZ = 5 * cm;
 
   G4double worldSizeX = 1.2 * layerSizeX;
   G4double worldSizeY = 1.2 * layerSizeY;
@@ -155,7 +155,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   logicScX->SetVisAttributes(new G4VisAttributes(G4Colour(.0, 1.0, 1., 1.0)));
   logicScY->SetVisAttributes(new G4VisAttributes(G4Colour(0.0, 0.0, 1., 0.4)));
   logConcrete->SetVisAttributes(new G4VisAttributes(G4Colour(.8, .3, .3, 0.3)));
-  logTarget->SetVisAttributes(new G4VisAttributes(G4Colour(1., .3, .3, 1.0)));
+  logTarget->SetVisAttributes(new G4VisAttributes(G4Colour(.3, 1., .3, 1.0)));
 
   // always return the physical World
   //

@@ -25,7 +25,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
       particleTable->FindParticle(particleName = "mu+");
   fParticleGun->SetParticleDefinition(particle);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., -1.));
-  fParticleGun->SetParticleEnergy(6. * GeV);
+  fParticleGun->SetParticleEnergy(4. * GeV);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
