@@ -35,32 +35,32 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
       nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
 
   // World and crystals
-  G4double scSizeX = 5.0 * cm;
-  G4double scSizeY = 50.0 * cm;
-  G4double scSizeZ = 1. * cm;
-  G4double scGapX = 0.2 * cm;
-  G4double scGapZ = 0.2 * cm;
-  G4int nScBar = 10;
-  G4int nLayerTop = 2;
-  G4int nLayerBottom = 2;
+  scSizeX = 5.0 * cm;
+  scSizeY = 50.0 * cm;
+  scSizeZ = 1. * cm;
+  scGapX = 0.2 * cm;
+  scGapZ = 0.2 * cm;
+  nScBar = 10;
+  nLayerTop = 2;
+  nLayerBottom = 2;
 
-  G4double layerGapZ = 1 * cm;
-  G4double topBotGap = 50 * cm;
+  layerGapZ = 1 * cm;
+  topBotGap = 50 * cm;
 
-  G4double layerSizeX = nScBar * scSizeX + nScBar * scGapX;
-  G4double layerSizeY = nScBar * scSizeX + nScBar * scGapX;
-  G4double layerSizeZ = scSizeZ + scGapZ;
+  layerSizeX = nScBar * scSizeX + nScBar * scGapX;
+  layerSizeY = nScBar * scSizeX + nScBar * scGapX;
+  layerSizeZ = scSizeZ + scGapZ;
 
-  G4double concreteX = 30 * cm;
-  G4double concreteY = 30 * cm;
-  G4double concreteZ = 30 * cm;
-  G4double targetX = 10 * cm;
-  G4double targetY = 10 * cm;
-  G4double targetZ = 5 * cm;
+  concreteX = 30 * cm;
+  concreteY = 30 * cm;
+  concreteZ = 30 * cm;
+  targetX = 10 * cm;
+  targetY = 10 * cm;
+  targetZ = 5 * cm;
 
-  G4double worldSizeX = 1.2 * layerSizeX;
-  G4double worldSizeY = 1.2 * layerSizeY;
-  G4double worldSizeZ =
+  worldSizeX = 1.2 * layerSizeX;
+  worldSizeY = 1.2 * layerSizeY;
+  worldSizeZ =
       1.2 * ((nLayerBottom + nLayerTop) * (layerSizeZ + layerGapZ) + topBotGap);
 
   // world volume
