@@ -19,6 +19,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     virtual G4VPhysicalVolume* Construct();
     virtual void ConstructSDandField();
 
+    const G4String GetTargetMaterial() { return fTargetMaterial; }
+    void SetTargetMaterial(const G4String mat) { fTargetMaterial = mat; }
+
   protected:
     // void DefineMaterials();
     G4bool  fCheckOverlaps;
@@ -44,6 +47,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double targetX;
     G4double targetY;
     G4double targetZ;
+    G4String fTargetMaterial;
 
     G4double worldSizeX;
     G4double worldSizeY;
