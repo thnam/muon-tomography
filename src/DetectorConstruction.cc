@@ -21,7 +21,8 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::DetectorConstruction()
-    : G4VUserDetectorConstruction(), fCheckOverlaps(true) {
+    : G4VUserDetectorConstruction(), targetMaterialStr("G4_Pb"),
+      fCheckOverlaps(false) {
   fDetConMessenger = new DetectorConstructionMessenger(this);
   // DefineMaterials();
 }
@@ -31,7 +32,7 @@ DetectorConstruction::~DetectorConstruction() { delete fDetConMessenger; }
 G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4NistManager *nist = G4NistManager::Instance();
   G4Material *default_mat = nist->FindOrBuildMaterial("G4_AIR");
-  G4Material *targetMaterial = nist->FindOrBuildMaterial("G4_Pb");
+  G4Material *targetMaterial = nist->FindOrBuildMaterial(targetMaterialStr);
   G4Material *concreteMaterial = nist->FindOrBuildMaterial("G4_CONCRETE");
   G4Material *scMaterial =
       nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
