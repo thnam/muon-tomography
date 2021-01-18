@@ -1,5 +1,6 @@
 #include "DetectorConstruction.hh"
 
+#include "DetectorConstructionMessenger.hh"
 #include "G4Box.hh"
 #include "G4LogicalVolume.hh"
 #include "G4MultiFunctionalDetector.hh"
@@ -21,10 +22,11 @@
 
 DetectorConstruction::DetectorConstruction()
     : G4VUserDetectorConstruction(), fCheckOverlaps(true) {
+  fDetConMessenger = new DetectorConstructionMessenger(this);
   // DefineMaterials();
 }
 
-DetectorConstruction::~DetectorConstruction() {}
+DetectorConstruction::~DetectorConstruction() { delete fDetConMessenger; }
 
 G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4NistManager *nist = G4NistManager::Instance();
@@ -34,35 +36,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4Material *scMaterial =
       nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
 
-  // World and crystals
-  scSizeX = 5.0 * cm;
-  scSizeY = 50.0 * cm;
-  scSizeZ = 1. * cm;
-  scGapX = 0.2 * cm;
-  scGapZ = 0.2 * cm;
-  nScBar = 10;
-  nLayerTop = 2;
-  nLayerBottom = 2;
-
-  layerGapZ = 1 * cm;
-  topBotGap = 50 * cm;
-
-  layerSizeX = nScBar * scSizeX + nScBar * scGapX;
-  layerSizeY = nScBar * scSizeX + nScBar * scGapX;
-  layerSizeZ = scSizeZ + scGapZ;
-
-  concreteX = 30 * cm;
-  concreteY = 30 * cm;
-  concreteZ = 30 * cm;
-  targetX = 10 * cm;
-  targetY = 10 * cm;
-  targetZ = 5 * cm;
-
-  worldSizeX = 1.2 * layerSizeX;
-  worldSizeY = 1.2 * layerSizeY;
-  worldSizeZ =
-      1.2 * ((nLayerBottom + nLayerTop) * (layerSizeZ + layerGapZ) + topBotGap);
-
+  // ComputeGeometry first
+  ComputeGeometry();
   // world volume
   G4Box *solidWorld =
       new G4Box("World", 0.5 * worldSizeX, 0.5 * worldSizeY, 0.5 * worldSizeZ);
@@ -90,8 +65,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
       new G4Box("target", targetX / 2, targetY / 2, targetZ / 2);
   G4LogicalVolume *logTarget =
       new G4LogicalVolume(solidTarget, targetMaterial, "target");
-  new G4PVPlacement(0, G4ThreeVector(), logTarget, "target", logConcrete, false,
-                    0, fCheckOverlaps);
+  new G4PVPlacement(
+      0, G4ThreeVector(targetLocationX, targetLocationY, targetLocationZ),
+      logTarget, "target", logConcrete, false, 0, fCheckOverlaps);
 
   // scintillators
   G4Box *solidScX =
@@ -176,4 +152,34 @@ void DetectorConstruction::ConstructSDandField() {
   G4VPrimitiveScorer *primitiv2 = new G4PSEnergyDeposit("edep");
   mfDetY->RegisterPrimitive(primitiv2);
   SetSensitiveDetector("logicScY", mfDetY);
+}
+
+void DetectorConstruction::ComputeGeometry() {
+  scSizeX = 5.0 * cm;
+  scSizeY = 50.0 * cm;
+  scSizeZ = 1. * cm;
+  scGapX = 0.2 * cm;
+  scGapZ = 0.2 * cm;
+  nScBar = 10;
+  nLayerTop = 2;
+  nLayerBottom = 2;
+
+  layerGapZ = 1 * cm;
+  topBotGap = 50 * cm;
+
+  layerSizeX = nScBar * scSizeX + nScBar * scGapX;
+  layerSizeY = nScBar * scSizeX + nScBar * scGapX;
+  layerSizeZ = scSizeZ + scGapZ;
+
+  concreteX = 30 * cm;
+  concreteY = 30 * cm;
+  concreteZ = 30 * cm;
+  targetX = 10 * cm;
+  targetY = 10 * cm;
+  targetZ = 5 * cm;
+
+  worldSizeX = 1.2 * layerSizeX;
+  worldSizeY = 1.2 * layerSizeY;
+  worldSizeZ =
+      1.2 * ((nLayerBottom + nLayerTop) * (layerSizeZ + layerGapZ) + topBotGap);
 }

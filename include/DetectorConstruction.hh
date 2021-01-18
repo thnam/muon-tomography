@@ -7,6 +7,7 @@
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;
+class DetectorConstructionMessenger;
 
 /// Detector construction class to define materials and geometry.
 
@@ -19,12 +20,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     virtual G4VPhysicalVolume* Construct();
     virtual void ConstructSDandField();
 
-    const G4String GetTargetMaterial() { return fTargetMaterial; }
-    void SetTargetMaterial(const G4String mat) { fTargetMaterial = mat; }
+    void ComputeGeometry();
 
-  protected:
-    // void DefineMaterials();
-    G4bool  fCheckOverlaps;
+    // public fields to avoid all getters and setters
     G4double scSizeX;
     G4double scSizeY;
     G4double scSizeZ;
@@ -47,11 +45,19 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double targetX;
     G4double targetY;
     G4double targetZ;
-    G4String fTargetMaterial;
+    G4double targetLocationX;
+    G4double targetLocationY;
+    G4double targetLocationZ;
+    G4String targetMaterialStr;
 
     G4double worldSizeX;
     G4double worldSizeY;
     G4double worldSizeZ;
+
+  protected:
+    // void DefineMaterials();
+    G4bool fCheckOverlaps;
+    DetectorConstructionMessenger *fDetConMessenger;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
