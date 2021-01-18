@@ -23,6 +23,9 @@
 DetectorConstruction::DetectorConstruction()
     : G4VUserDetectorConstruction(), targetMaterialStr("G4_Pb"),
       fCheckOverlaps(false) {
+  targetX = 10 * cm;
+  targetY = 10 * cm;
+  targetZ = 5 * cm;
   fDetConMessenger = new DetectorConstructionMessenger(this);
   // DefineMaterials();
 }
@@ -175,9 +178,6 @@ void DetectorConstruction::ComputeGeometry() {
   concreteX = 30 * cm;
   concreteY = 30 * cm;
   concreteZ = 30 * cm;
-  targetX = 10 * cm;
-  targetY = 10 * cm;
-  targetZ = 5 * cm;
 
   worldSizeX = 1.2 * layerSizeX;
   worldSizeY = 1.2 * layerSizeY;

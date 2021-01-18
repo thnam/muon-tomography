@@ -1,3 +1,8 @@
+# customize target parameters
+/muTomo/targetLocation 0 10 0 cm
+/muTomo/targetSize 10 10 20 cm
+/muTomo/targetMaterial G4_W
+
 /run/initialize
 /tracking/verbose 0
 /run/beamOn 1000000
