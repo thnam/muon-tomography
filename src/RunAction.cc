@@ -45,9 +45,10 @@ void RunAction::BeginOfRunAction(const G4Run *) {
   // Get analysis manager
   auto anaMan = G4AnalysisManager::Instance();
 
+
   // Open an output file
   //
-  G4String fileName = "edep";
+  G4String fileName = "edep.root";
   anaMan->OpenFile(fileName);
 }
 

@@ -131,7 +131,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   // Visualization attributes
   //------------------------------------------------
 
-  logicWorld->SetVisAttributes(G4VisAttributes::Invisible);
+  logicWorld->SetVisAttributes(G4VisAttributes::GetInvisible());
   logicScX->SetVisAttributes(new G4VisAttributes(G4Colour(.0, 1.0, 1., 1.0)));
   logicScY->SetVisAttributes(new G4VisAttributes(G4Colour(0.0, 0.0, 1., 0.4)));
   logConcrete->SetVisAttributes(new G4VisAttributes(G4Colour(.8, .3, .3, 0.3)));
